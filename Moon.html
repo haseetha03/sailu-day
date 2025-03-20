@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon🌙🫀</title>
+    <style>
+        body {
+            background-image: url('file:///C:/Users/Prasa/OneDrive/Desktop/cpp/LOVE.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .heart-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: pink;
+            border-radius: 50%;
+            animation: heartFall 5s linear infinite;
+            transform: rotate(45deg);
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 10px;
+        }
+
+        @keyframes heartFall {
+            0% { transform: translateY(-10px) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+        }
+
+        .envelope-container {
+            position: relative;
+            cursor: pointer;
+            display: none;
+        }
+
+        .envelope {
+            font-size: 80px;
+            color: red;
+            transition: transform 0.3s ease;
+        }
+
+        .letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            text-align: center;
+            width: 300px;
+        }
+
+        .letter.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .qr-code {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-top: 20px;
+        }
+
+        .qr-code img {
+            width: 200px;
+            height: 200px;
+        }
+
+        .center-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2);
+            color: pink;
+            font-size: 5em;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #letter {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='pink' d='M10 18.35l-8.55-8.55a.75.75 0 011.06-1.06L10 16.23l7.49-7.49a.75.75 0 011.06 1.06L10 18.35z'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            font-family: cursive;
+            line-height: 1.6;
+        }
+
+        #letter p {
+            margin-bottom: 10px;
+        }
+
+        #loveButton {
+            background-color: pink;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #loveButton:hover {
+            background-color: #e91e63;
+            transform: scale(1.05);
+        }
+
+        #loveButton:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="backgroundMusic" loop autoplay preload="auto">
+        <source src="bgm.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="heart-bg"></div>
+
+    <div class="center-heart">&#10084;</div>
+    <div class="envelope-container" id="envelopeContainer">
+        <div class="envelope" id="envelope">&#128230;</div>
+        <div class="letter" id="letter">
+            <p>Sailu,</p>
+            <p>Nuvu Naku -</p>
+            <p>Priyamo o</p>
+            <p>Varamo o</p>
+            <p>Pranamo o</p>
+            <p>Pranayamo o</p>
+            <p>Para vasamo o</p>
+            <p>Parichayamo o</p>
+            <p>Parlayalamo o</p>
+            <p>Teliyatledu</p>
+            <p>Ni Swaram...</p>
+            <p>Naa Varam....</p>
+            <p>When you speak, it's the only thing I hear</p>
+            <p>With all my love,</p>
+            <p>Happiest Birthday My Moon🌙🫀</p>
+            <button id="loveButton">Love</button>
+        </div>
+    </div>
+    <div class="qr-code" id="qrCode">
+        <img src="HTML.png" alt="QR Code">
+    </div>
+
+    <script>
+        const envelope = document.getElementById('envelope');
+        const letter = document.getElementById('letter');
+        const loveButton = document.getElementById('loveButton');
+        const envelopeContainer = document.getElementById('envelopeContainer');
+        const centerHeart = document.querySelector('.center-heart');
+        const qrCode = document.getElementById('qrCode');
+        const music = document.getElementById("backgroundMusic");
+
+        envelopeContainer.style.display = 'none';
+        qrCode.style.display = 'none';
+
+        centerHeart.addEventListener('click', () => {
+            envelopeContainer.style.display = 'block';
+            centerHeart.style.display = 'none';
+        });
+
+        envelope.addEventListener('click', () => {
+            letter.classList.toggle('show');
+        });
+
+        loveButton.addEventListener('click', () => {
+            qrCode.style.display = 'block';
+            letter.style.display = 'none';
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.querySelector('.heart-bg').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 100);
+
+        document.addEventListener('click', function() {
+            if (music.paused) {
+                music.play().catch(error => {
+                    console.error("Audio playback failed:", error);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
